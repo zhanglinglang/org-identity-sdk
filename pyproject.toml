@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "org-identity-sdk"
+version = "0.1.0"
+description = "可信智能体协作基础设施 — Agent 身份卡片 SDK"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.9"
+authors = [
+    {name = "南京灵枢铸药智能科技有限公司", email = "dev@lingshuyaozhi.com"},
+]
+keywords = ["a2a", "agent", "identity", "trust", "collaboration", "ath"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "jsonschema>=4.20",
+    "cryptography>=41.0",
+    "pydantic>=2.5",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "ruff>=0.1",
+    "mypy>=1.7",
+]
+
+[project.urls]
+Homepage = "https://github.com/lingzhu-ai/org-identity-sdk"
+Documentation = "https://github.com/lingzhu-ai/org-identity-sdk#readme"
+Repository = "https://github.com/lingzhu-ai/org-identity-sdk"
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"

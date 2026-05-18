@@ -1,0 +1,274 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/lingzhu-ai/org-identity-spec/schema/v1/org-identity.schema.json",
+  "title": "Org-Identity — 可信智能体身份卡片",
+  "description": "标准化的组织-智能体身份信息卡片，兼容 Google A2A AgentCard 及国内 ATH 协议。",
+  "type": "object",
+  "required": [
+    "protocol_version",
+    "org_identity",
+    "agent_profile"
+  ],
+  "properties": {
+    "protocol_version": {
+      "type": "string",
+      "enum": [
+        "ATH/v1"
+      ],
+      "description": "协议版本号"
+    },
+    "card_id": {
+      "type": "string",
+      "description": "卡片唯一标识符 (UUID v4)"
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "卡片签发时间 (ISO 8601)"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "卡片过期时间 (ISO 8601)"
+    },
+    "org_identity": {
+      "type": "object",
+      "required": [
+        "uscc",
+        "legal_name"
+      ],
+      "properties": {
+        "uscc": {
+          "type": "string",
+          "pattern": "^[0-9A-HJ-NPQRTUWXY]{2}\\d{6}[0-9A-HJ-NPQRTUWXY]{10}$",
+          "description": "统一社会信用代码 (18位)"
+        },
+        "legal_name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 128,
+          "description": "法人实体全称"
+        },
+        "short_name": {
+          "type": "string",
+          "description": "组织机构简称（可选）"
+        },
+        "agent_registration_id": {
+          "type": "string",
+          "description": "智能体备案号（预留字段，监管发布后启用）"
+        },
+        "security_cert_level": {
+          "type": "string",
+          "enum": [
+            "L1",
+            "L2",
+            "L3"
+          ],
+          "description": "安全认证等级: L1=基础自声明, L2=第三方认证, L3=国家级认证"
+        },
+        "registered_address": {
+          "type": "string",
+          "description": "注册地址"
+        },
+        "business_scope": {
+          "type": "string",
+          "description": "经营范围简述"
+        }
+      }
+    },
+    "agent_profile": {
+      "type": "object",
+      "required": [
+        "name",
+        "version",
+        "description"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Agent 名称"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+(-[\\w.]+)?$",
+          "description": "语义化版本号"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024,
+          "description": "Agent 功能描述"
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Agent 能力列表"
+        },
+        "endpoint_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Agent 通信端点 URL"
+        },
+        "input_modes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "text",
+              "image",
+              "audio",
+              "video",
+              "file",
+              "structured"
+            ]
+          },
+          "description": "支持的输入模式"
+        },
+        "output_modes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "text",
+              "image",
+              "audio",
+              "video",
+              "file",
+              "structured"
+            ]
+          },
+          "description": "支持的输出模式"
+        },
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "name",
+              "description"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "examples": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "description": "Agent 技能列表"
+        }
+      }
+    },
+    "accountability": {
+      "type": "object",
+      "required": [
+        "responsible_entity",
+        "contact_phone",
+        "contact_email"
+      ],
+      "properties": {
+        "responsible_entity": {
+          "type": "string",
+          "description": "责任主体名称（通常与legal_name一致）"
+        },
+        "contact_person": {
+          "type": "string",
+          "description": "责任联系人"
+        },
+        "contact_phone": {
+          "type": "string",
+          "pattern": "^\\+?\\d{7,15}$",
+          "description": "联系电话"
+        },
+        "contact_email": {
+          "type": "string",
+          "format": "email",
+          "description": "联系邮箱"
+        },
+        "privacy_contact": {
+          "type": "string",
+          "description": "数据隐私事务联系人"
+        },
+        "data_processing_scope": {
+          "type": "string",
+          "enum": [
+            "none",
+            "conversation_only",
+            "user_profile",
+            "behavioral_data",
+            "sensitive_data"
+          ],
+          "description": "数据处理范围"
+        },
+        "data_retention_policy": {
+          "type": "string",
+          "description": "数据保留策略简述"
+        }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "enum": [
+            "RS256",
+            "ES256",
+            "Ed25519"
+          ],
+          "description": "签名算法"
+        },
+        "value": {
+          "type": "string",
+          "description": "数字签名字符串 (Base64)"
+        },
+        "verified_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "签名验证时间"
+        },
+        "verified_by": {
+          "type": "string",
+          "description": "验证服务端点"
+        },
+        "verification_method": {
+          "type": "string",
+          "enum": [
+            "legal_rep_phone",
+            "email_challenge",
+            "dns_txt",
+            "manual_review"
+          ],
+          "description": "确权验证方式"
+        }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "description": "扩展字段，用于未来协议版本兼容",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}
