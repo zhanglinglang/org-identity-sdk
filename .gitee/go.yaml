@@ -1,0 +1,22 @@
+﻿version: '1.0'
+name: org-identity-sdk-test
+displayName: org-identity-sdk 测试流水线
+triggers:
+  trigger: auto
+  push:
+    branches:
+      prefix:
+       - 'master'
+stages:
+- stage: test-39
+  name: test-39
+  displayName: 测试 Python 3.9
+  steps:
+  - step: image-script-run@1
+    name: pytest
+    displayName: pytest
+    inputs:
+      image: python:3.9
+      script: |
+        pip install -e ".[dev]"
+        pytest tests/ -v --tb=short
