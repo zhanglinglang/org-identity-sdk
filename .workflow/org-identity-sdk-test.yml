@@ -1,0 +1,31 @@
+version: '1.0'
+name: org-identity-sdk-test
+displayName: org-identity-sdk-test
+triggers:
+  trigger: auto
+  push:
+    branches:
+      prefix:
+        - master
+stages:
+  - name: stage-33c4c01f
+    displayName: 测试阶段
+    strategy: naturally
+    trigger: auto
+    executor: []
+    steps:
+      - step: execute@docker
+        name: execute_by_docker
+        displayName: 基于镜像的脚本执行
+        certificate: ''
+        image: python:3.9
+        command:
+          - pip install -e ".[dev]"
+          - pytest tests/ -v --tb=short
+        artifacts:
+          - name: BUILD_ARTIFACT
+            path:
+              - ./target
+        notify: []
+        strategy:
+          retry: '0'
