@@ -21,6 +21,10 @@
 - [身份卡片结构](#身份卡片结构)
 - [架构设计](#架构设计)
 - [项目结构](#项目结构)
+- [安装后验证](#安装后验证)
+- [API 文档](#api-文档)
+- [项目状态](#项目状态)
+- [相关链接](#相关链接)
 - [协议规范](#协议规范)
 - [参与贡献](#参与贡献)
 - [License](#license)
@@ -332,8 +336,11 @@ org-identity-sdk/
 │   ├── validator.py                 # 格式 + 业务逻辑双重校验
 │   ├── verifier.py                  # 法人手机确权 + 会话管理
 │   └── exporter.py                  # 多格式导出 (org-id / AgentCard / Summary)
+├── docs/
+│   └── api_reference.md              # 完整 API 参考手册
 ├── examples/
-│   └── basic_usage.py               # 完整使用示例
+│   ├── basic_usage.py                # 基本使用示例
+│   └── advanced_usage.py             # 进阶使用示例
 ├── tests/
 │   ├── test_builder.py              # 构造器单元测试
 │   └── test_validator.py            # 校验器单元测试
@@ -390,6 +397,65 @@ pip install -e ".[dev]"
 # 运行测试
 pytest tests/ -v
 ```
+
+---
+
+## 安装后验证
+
+```bash
+# 克隆仓库
+git clone https://gitee.com/lingshuzhuyao/org-identity-sdk.git
+cd org-identity-sdk
+
+# 安装开发依赖
+pip install -e ".[dev]"
+
+# 运行测试 (11 个测试用例)
+pytest tests/ -v
+
+# 运行基本示例
+python examples/basic_usage.py
+
+# 运行进阶示例
+python examples/advanced_usage.py
+```
+
+---
+
+## API 文档
+
+| 文档 | 说明 |
+|------|------|
+| [API 参考手册](docs/api_reference.md) | 所有公共类、方法、参数、返回值的完整文档 |
+| [基本示例](examples/basic_usage.py) | 30 秒上手：生成卡片 → 校验 → 导出 → 摘要 |
+| [进阶示例](examples/advanced_usage.py) | 自定义适配器、批量签发、A2A 对接、生命周期管理 |
+
+---
+
+## 项目状态
+
+| 指标 | 状态 |
+|------|------|
+| 版本 | v0.1.0 (Alpha) |
+| 协议 | ATH/v1 (Draft) |
+| Python | 3.9+ |
+| 测试 | 11/11 通过 |
+| License | Apache 2.0 |
+
+> **ATH/v1 当前为 Draft 状态**。初始版本与 Google A2A AgentCard 双向兼容。欢迎通过 Issue 参与讨论和反馈。
+
+---
+
+## 相关链接
+
+| 资源 | 链接 |
+|------|------|
+| Gitee 仓库 | https://gitee.com/lingshuzhuyao/org-identity-sdk |
+| GitHub 镜像 | https://github.com/lingzhu-ai/org-identity-sdk |
+| Schema 定义 | [schema/org-identity.schema.json](schema/org-identity.schema.json) |
+| Google A2A 协议 | https://github.com/google/A2A |
+| 提交 Bug | https://gitee.com/lingshuzhuyao/org-identity-sdk/issues |
+| 贡献指南 | [CONTRIBUTING.md](CONTRIBUTING.md) |
 
 ---
 
